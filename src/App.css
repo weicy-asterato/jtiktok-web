@@ -1,0 +1,335 @@
+* {
+  box-sizing: border-box;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 0%, #1d1d22 0%, #101014 45%, #050506 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  padding: 38px;
+  border: 1px solid #28282e;
+  border-radius: 24px;
+  background: rgba(15, 15, 18, 0.94);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+}
+
+.welcome {
+  text-align: center;
+}
+
+.logo {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 24px;
+  background: #080808;
+
+  font-size: 56px;
+  font-weight: bold;
+
+  text-shadow:
+    -4px -2px 0 #25f4ee,
+    4px 2px 0 #fe2c55;
+
+  box-shadow:
+    -10px 0 30px rgba(37, 244, 238, 0.15),
+    10px 0 30px rgba(254, 44, 85, 0.15);
+}
+
+h1 {
+  font-size: 46px;
+  margin: 0 0 28px;
+  letter-spacing: -2px;
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 27px;
+}
+
+.description,
+.subtitle {
+  color: #aaaab2;
+  line-height: 1.6;
+}
+
+.description {
+  margin-bottom: 32px;
+}
+
+.subtitle {
+  margin-bottom: 30px;
+}
+
+.primaryButton {
+  width: 100%;
+  height: 56px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: white;
+  color: #090909;
+
+  font-weight: 700;
+  font-size: 16px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  transition: 0.2s;
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  background: #f0f0f0;
+}
+
+.buttonIcon {
+  font-size: 24px;
+
+  text-shadow:
+    -2px -1px 0 #25f4ee,
+    2px 1px 0 #fe2c55;
+}
+
+.demoNotice {
+  margin-top: 20px;
+  margin-bottom: 0;
+
+  color: #65656d;
+  font-size: 12px;
+  text-align: center;
+}
+
+.smallLogo {
+  font-size: 38px;
+  margin-bottom: 28px;
+
+  text-shadow:
+    -3px -1px 0 #25f4ee,
+    3px 1px 0 #fe2c55;
+}
+
+.backButton {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+  border: 1px solid #303036;
+
+  background: #18181c;
+  color: white;
+
+  cursor: pointer;
+}
+
+label {
+  display: block;
+  margin-bottom: 9px;
+
+  color: #ccccd1;
+  font-size: 13px;
+}
+
+.phoneInput {
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+
+  border: 1px solid #37373e;
+  border-radius: 10px;
+
+  overflow: hidden;
+  background: #17171b;
+
+  margin-bottom: 8px;
+}
+
+.country {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 15px;
+
+  border-right: 1px solid #35353c;
+
+  color: #e5e5e8;
+}
+
+.phoneInput input {
+  flex: 1;
+  height: 100%;
+
+  border: 0;
+  outline: none;
+
+  padding: 0 15px;
+
+  color: white;
+  background: transparent;
+
+  font-size: 17px;
+}
+
+.counter {
+  text-align: right;
+  color: #65656d;
+
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.error {
+  color: #fe2c55;
+  font-size: 13px;
+  margin: -8px 0 16px;
+}
+
+.loadingScreen {
+  text-align: center;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+
+  margin: 0 auto 30px;
+
+  border: 5px solid #27272d;
+  border-top-color: #25f4ee;
+  border-right-color: #fe2c55;
+
+  border-radius: 50%;
+
+  animation: spin 0.8s linear infinite;
+}
+
+.timer {
+  margin-top: 30px;
+
+  font-size: 34px;
+  font-weight: bold;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.codeInput {
+  width: 100%;
+  height: 65px;
+
+  border: 1px solid #37373e;
+  border-radius: 10px;
+
+  background: #17171b;
+  color: white;
+
+  outline: none;
+
+  text-align: center;
+
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 10px;
+
+  margin-bottom: 20px;
+}
+
+.emptyPage {
+  position: fixed;
+  inset: 0;
+
+  background: #09090b;
+}
+
+.topBar {
+  height: 70px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 30px;
+
+  border-bottom: 1px solid #222228;
+}
+
+.miniBrand {
+  display: flex;
+  gap: 9px;
+
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.miniBrand span {
+  text-shadow:
+    -2px -1px 0 #25f4ee,
+    2px 1px 0 #fe2c55;
+}
+
+.emptyContent {
+  height: calc(100vh - 70px);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #55555d;
+}
+
+.emptyContent h1 {
+  color: #777780;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 500px) {
+  .app {
+    padding: 15px;
+  }
+
+  .card {
+    padding: 30px 22px;
+  }
+
+  h1 {
+    font-size: 39px;
+  }
+}
