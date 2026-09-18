@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { supabase } from "./lib/supabase";
 
-type Screen = "welcome" | "phone" | "verify" | "home";
+type Screen = "welcome" | "phone" | "verify" | "loading" | "home";
 
 function App() {
   const [screen, setScreen] = useState<Screen>("welcome");
@@ -10,6 +10,7 @@ function App() {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [seconds, setSeconds] = useState(30);
 
   function handlePhone(value: string) {
     setPhone(value.replace(/\D/g, "").slice(0, 10));
@@ -69,8 +70,27 @@ function App() {
       return;
     }
 
-    setScreen("home");
+    setSeconds(30);
+    setScreen("loading");
   }
+
+  useEffect(() => {
+    if (screen !== "loading") return;
+
+    const timer = setInterval(() => {
+      setSeconds((current) => {
+        if (current <= 1) {
+          clearInterval(timer);
+          setScreen("home");
+          return 0;
+        }
+
+        return current - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [screen]);
 
   return (
     <main className="app">
@@ -186,8 +206,28 @@ function App() {
             onClick={enterCode}
             disabled={!code || loading}
           >
-            {loading ? "Guardando..." : "Ingresar"}
+            {loading ? "Guardando..." : "Continuar"}
           </button>
+        </section>
+      )}
+
+      {screen === "loading" && (
+        <section className="authCard loadingCard">
+          <div className="bigSpinner" />
+
+          <h2>Preparando JTikTok...</h2>
+
+          <p className="description">
+            Estamos preparando todo para comenzar.
+          </p>
+
+          <div className="loadingTime">
+            {seconds}
+          </div>
+
+          <span className="loadingSeconds">
+            segundos
+          </span>
         </section>
       )}
 
@@ -212,9 +252,7 @@ function App() {
 
               <h1>Elige un juego</h1>
 
-              <p>
-                Minijuegos de prueba.
-              </p>
+              <p>Minijuegos de prueba.</p>
             </div>
 
             <div className="gamesGrid">
