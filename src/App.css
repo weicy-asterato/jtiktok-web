@@ -403,23 +403,6 @@ button {
   font-size: 27px;
 }
 
-.loadingTime {
-  margin-top: 25px;
-
-  font-size: 52px;
-  font-weight: 800;
-}
-
-.loadingSeconds {
-  display: block;
-
-  margin-top: 4px;
-
-  color: #777780;
-
-  font-size: 13px;
-}
-
 /* =========================
    HOME
 ========================= */
@@ -783,7 +766,4 @@ button {
     height: 62px;
   }
 
-  .loadingTime {
-    font-size: 46px;
-  }
 }
