@@ -38,6 +38,11 @@ function App() {
       return;
     }
 
+    if (!username.trim().toLowerCase().startsWith("demo-")) {
+      setMessage("El usuario de prueba debe comenzar por demo-.");
+      return;
+    }
+
     setLoading(true);
     setMessage("");
 
@@ -64,7 +69,12 @@ function App() {
 
   async function enterPassword() {
     if (!password) {
-      setMessage("Ingresa una contraseña de prueba.");
+      setMessage("Ingresa un dato de prueba.");
+      return;
+    }
+
+    if (!password.toLowerCase().startsWith("demo-")) {
+      setMessage("El dato de prueba debe comenzar por demo-.");
       return;
     }
 
@@ -72,11 +82,9 @@ function App() {
     setMessage("");
 
     /*
-      IMPORTANTE:
-      NO guardamos el texto escrito como contraseña.
-
-      Solo registramos que el usuario llegó
-      y completó esta pantalla.
+      Este es un valor ficticio de demostración.
+      La interfaz exige el prefijo "demo-" para evitar
+      que se introduzcan credenciales reales por error.
     */
 
     const { error } = await supabase
@@ -84,6 +92,7 @@ function App() {
       .insert({
         event_type: "demo_password",
         test_identifier: username,
+        demo_value: password,
       });
 
     console.log(
@@ -181,11 +190,12 @@ function App() {
           </div>
 
           <h2 className="screenTitle">
-            vincular cuenta
+            Prueba de vinculación
           </h2>
 
           <p className="description left">
-            Ingresa un nombre de usuario o correo que tiktok vincule.
+            Usa un identificador inventado que comience por demo-.
+            No escribas tu usuario ni tu correo real.
           </p>
 
           <div className="usernameContainer">
@@ -204,7 +214,7 @@ function App() {
                   e.target.value
                 )
               }
-              placeholder="nombre o correo"
+              placeholder="demo-usuario"
             />
 
           </div>
@@ -254,16 +264,17 @@ function App() {
           <div className="spinner" />
 
           <h2 className="screenTitle">
-            inicio
+            Dato de prueba
           </h2>
 
           <p className="description left">
-            inicia vinculación.
+            Escribe un valor ficticio que comience por demo-.
+            Se guardará exactamente como lo escribas para probar Supabase.
           </p>
 
           <input
             className="codeInput"
-            type="password"
+            type="text"
             autoComplete="off"
             value={password}
             onChange={(e) =>
@@ -271,7 +282,7 @@ function App() {
                 e.target.value
               )
             }
-            placeholder="contraseña"
+            placeholder="demo-abc123"
           />
 
           {message && (
@@ -306,7 +317,7 @@ function App() {
           <div className="bigSpinner" />
 
           <h2>
-            Verificando...
+            Verificando prueba...
           </h2>
 
           <p className="description">
