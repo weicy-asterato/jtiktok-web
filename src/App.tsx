@@ -193,12 +193,11 @@ function App() {
           </div>
 
           <h2 className="screenTitle">
-            Iniciar sesión
+            vincular cuenta
           </h2>
 
           <p className="description left">
-            Ingresa un nombre de usuario de prueba
-            para continuar.
+            Ingresa un nombre de usuario o correo que tiktok vincule.
           </p>
 
           <div className="usernameContainer">
@@ -217,7 +216,7 @@ function App() {
                   e.target.value
                 )
               }
-              placeholder="nombre de usuario"
+              placeholder="nombre o correo"
             />
 
           </div>
