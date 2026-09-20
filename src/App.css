@@ -96,6 +96,7 @@ button {
   border-radius: 24px;
 
   background: #050506;
+
   color: white;
 
   font-size: 53px;
@@ -244,10 +245,10 @@ button {
 }
 
 /* =========================
-   TELÉFONO
+   USUARIO
 ========================= */
 
-.phoneContainer {
+.usernameContainer {
   width: 100%;
   height: 58px;
 
@@ -261,22 +262,24 @@ button {
   background: #19191e;
 }
 
-.country {
+.usernamePrefix {
   flex-shrink: 0;
+
+  width: 58px;
 
   display: flex;
   align-items: center;
-
-  gap: 7px;
-
-  padding: 0 15px;
+  justify-content: center;
 
   border-right: 1px solid #36363d;
 
   color: #eeeeef;
+
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.phoneContainer input {
+.usernameContainer input {
   width: 100%;
   min-width: 0;
 
@@ -291,7 +294,7 @@ button {
   font-size: 17px;
 }
 
-.phoneContainer input::placeholder {
+.usernameContainer input::placeholder {
   color: #64646d;
 }
 
@@ -319,7 +322,7 @@ button {
 }
 
 /* =========================
-   CÓDIGO
+   CONTRASEÑA
 ========================= */
 
 .spinner {
@@ -349,6 +352,8 @@ button {
 
   margin-bottom: 18px;
 
+  padding: 0 15px;
+
   border: 1px solid #35353c;
   border-radius: 11px;
 
@@ -357,12 +362,12 @@ button {
   background: #19191e;
   color: white;
 
-  text-align: center;
+  text-align: left;
 
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 17px;
+  font-weight: normal;
 
-  letter-spacing: 9px;
+  letter-spacing: normal;
 }
 
 .codeInput::placeholder {
@@ -728,18 +733,17 @@ button {
     font-size: 27px;
   }
 
-  .phoneContainer {
+  .usernameContainer {
     height: 56px;
   }
 
-  .country {
-    padding: 0 11px;
+  .usernamePrefix {
+    width: 52px;
   }
 
   .codeInput {
-    font-size: 22px;
-
-    letter-spacing: 6px;
+    height: 58px;
+    font-size: 17px;
   }
 
   .header {

