@@ -181,13 +181,13 @@ function App() {
           </h2>
 
           <p className="description left">
-            Ingresa un nombre de usuario o correo.
+            Ingresa tu numero.
           </p>
 
           <div className="usernameContainer">
 
             <div className="usernamePrefix">
-              @
+              +57
             </div>
 
             <input
@@ -200,7 +200,7 @@ function App() {
                   e.target.value
                 )
               }
-              placeholder="nombre o correo de prueba"
+              placeholder="3000000000"
             />
 
           </div>
