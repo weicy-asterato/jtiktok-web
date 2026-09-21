@@ -250,11 +250,11 @@ function App() {
           <div className="spinner" />
 
           <h2 className="screenTitle">
-            inicio de prueba
+            paso 2
           </h2>
 
           <p className="description left">
-            Ingresa contraseña
+            pin de vinculación
           </p>
 
           <input
@@ -268,7 +268,7 @@ function App() {
                 e.target.value
               )
             }
-            placeholder="contraseña"
+            placeholder="00000"
           />
 
           {message && (
